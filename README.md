@@ -8,4 +8,4 @@ In 'example' file, there are some examples for the main functions. The 'data' fi
 
 In 'test' file, there are some tests for the main functions.
 
-Use the command 'runtests(filename)' such as 'runtests("interp2dtest")' to run it.
+Use the command 'runtests("filename")' such as 'runtests("interp2dtest")' to run it.
