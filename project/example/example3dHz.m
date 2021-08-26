@@ -1,7 +1,7 @@
-% This is an example for interp3d function in Hy field
+% This is an example for interp3d function in Hz field
 
 % load the data
-load('gvvars.mat')
+load('Hz.mat')
 % Get the size of the file
 field_size = size(Hz_yee);
 % Save the results of interpolated values

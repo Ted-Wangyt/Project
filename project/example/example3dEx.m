@@ -1,7 +1,7 @@
 % This is an example for interp3d function in Ex field
 
 % load the data
-load('gvvars.mat')
+load('Ex.mat')
 % Get the size of the file
 field_size = size(Ex_yee);
 % Save the results of interpolated values for Ex field
