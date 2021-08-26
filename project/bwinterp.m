@@ -24,6 +24,15 @@ function [intval] = bwinterp(avec, ni)
 %   stem(true); 
 %   title('interpolated value');
 
+% Define error function
+% For the cases that the target interpolation position is out of the range of the vector.
+errorSize.message = 'The interpolation position must be within the range of the vector.';
+errorSize.identifier = 'bwinterp:outofRange';
+
+% For the cases length is less than 9
+errorData.message = 'Length of data sequence must be at least 9.';
+errorData.identifier = 'bwinterp:wrongLength';
+
 
 % Check the format of inputs
 validateattributes(avec,{'single','double'},{'vector'},'bwinterp');
@@ -34,10 +43,12 @@ n=length(avec);
 
 % Check the length of input
 if 9 > n
-	error('Length of data sequence must be at least 9.');
+    error(errorData);
+	% error('Length of data sequence must be at least 9.');
 end
 if ni > n-1
-	error('The interpolation position must be within the range of the vector.');
+    error(errorSize);
+	% error('The interpolation position must be within the range of the vector.');
 end
 
 % The coefficient value for b

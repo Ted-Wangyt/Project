@@ -14,6 +14,17 @@ function [intval] = interp2d(fmatrix, xi,yi,fname)
 %   interp2d(field,50,50,'E')
 
 
+% Define error function
+% For the cases that the target interpolation position is out of the range of the matrix.
+errorSize.message = 'The interpolation position must be within the range of the matrix.';
+errorSize.identifier = 'interp2d:outofRange';
+% For the cases length is less than 9
+errorMatrix.message = 'size of data matrix must be at least 9*9.';
+errorMatrix.identifier = 'interp2d:wrongLength';
+% Wrong field name
+errorField.message = 'The field name should be E or H.';
+errorField.identifier = 'interp2d:wrongField';
+
 % Check the format of inputs
 validateattributes(fmatrix,{'single','double'},{'2d'},'interp2d');
 validateattributes(xi,{'numeric'},{'>=',1,'finite','integer','scalar'},'interp2d');
@@ -25,17 +36,17 @@ fsize=size(fmatrix);
 
 % Check the length of input
 if 9 > fsize(1) || 9 > fsize(2)
-	error('size of data matrix must be at least 9*9.');
+	error(errorMatrix);
 end
 
 % Check the row number of target point
 if xi > fsize(1)-1
-	error('The interpolation position must be within the range of the matrix.');
+	error(errorSize);
 end
 
 % Check the input for field name
 if fname~='E' & fname~='H'
-	error('The field name should be E or H.');
+	error(errorField);
 end
 
 
@@ -44,7 +55,7 @@ if fname=='E'
     % Here are 3 cases. We only select 9 points to reduce operation.
     % Check the column number of target point
     if yi > fsize(2)
-        error('The interpolation position must be within the range of the matrix.');
+        error(errorSize);
     end
     % When xi at the upper edge
     if xi<5
@@ -66,7 +77,7 @@ end
 if fname=='H'
     % Check the column number of target point
     if yi > fsize(2)-1
-        error('The interpolation position must be within the range of the matrix.');
+        error(errorSize);
     end
     temp_input=zeros(1,9);
     % When yi at the left edge

@@ -6,6 +6,17 @@ function [value] = interp3d(fmatrix3d, xi,yi,zi,fieldname)
 %   the position to specify where to interpolate.
 
 
+% Define error function
+% For the cases that the target interpolation position is out of the range of the matrix.
+errorSize.message = 'The interpolation position must be within the range of the matrix.';
+errorSize.identifier = 'interp3d:outofRange';
+% For the cases length is less than 9
+errorMatrix.message = 'size of data matrix must be at least 9*9*9.';
+errorMatrix.identifier = 'interp3d:wrongLength';
+% Wrong field name
+errorField.message = 'The field name should be Ex, Ey, Ez, Hx, Hy or Hz.';
+errorField.identifier = 'interp3d:wrongField';
+
 % Check the format of inputs
 validateattributes(fmatrix3d,{'single','double'},{'3d'},'interp3d');
 validateattributes(xi,{'numeric'},{'>=',1,'finite','integer','scalar'},'interp3d');
@@ -18,19 +29,19 @@ fsize=size(fmatrix3d);
 
 % Check the length of input
 if 9 > fsize(1) || 9 > fsize(2) || 9 > fsize(3)
-	error('size of data matrix must be at least 9*9*9.');
+	error(errorMatrix);
 end
 
 % Check the location of target point
 if xi > fsize(1)-1 || yi > fsize(1)-1 || zi > fsize(1)-1
-	error('The interpolation position must be within the range of the matrix.');
+	error(errorSize);
 end
 
 % Check for the field name
-if fieldname~='Ex' & fieldname~='Ey' & fieldname~='Ez' & fieldname~='Hx' & fieldname~='Hy' & fieldname~='Hz'
-	error('The field name should be Ex, Ey, Ez, Hx, Hy or Hz.');
+Name=['Ex','Ey','Ez','Hx','Hy','Hz'];
+if ~ismember(fieldname,Name)
+    error(errorField);
 end
-
 
 
 % For electirc field
